@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}{{ group.name }} - Travel Together{% endblock %}
+{% block content %}
+<h1>{{ group.name }}</h1>
+<p>{{ group.description }} | {{ group.group_type }} | {% if group.is_public %}Public{% else %}Private{% endif %}</p>
+{% if not is_member and not group.is_public %}
+    <a href="{% url 'request_join' group.pk %}"><button>Request Join</button></a>
+{% endif %}
+<h2>Members</h2>
+<ul>{% for member in members %}<li>{{ member.user.username }}</li>{% endfor %}</ul>
+{% if is_owner %}<a href="{% url 'manage_requests' group.pk %}">Manage Requests</a>{% endif %}
+<a href="{% url 'group_chat' group.pk %}"><button>View Chats</button></a>
+<a href="{% url 'dashboard' %}">Back</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}{{ group.name }} Chats - Travel Together{% endblock %}
+{% block content %}
+<h1>Chats: {{ group.name }}</h1>
+<ul>
+    {% for chat in chats %}
+    <li><strong>{{ chat.user.username }}</strong> ({{ chat.timestamp|date:"M d, Y H:i" }}): {{ chat.message }}</li>
+    {% empty %}<li>No chats yet—break the ice!</li>
+    {% endfor %}
+</ul>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Send</button></form>
+<a href="{% url 'group_detail' group.pk %}">Back to Group</a>
+{% endblock %}

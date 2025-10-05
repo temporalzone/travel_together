@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Login - Travel Together{% endblock %}
+{% block content %}
+<h1>Back for More Trails? Log In!</h1>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Enter Dashboard</button></form>
+<p>New explorer? <a href="{% url 'register' %}">Sign Up</a></p>
+<p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Travel Together{% endblock %}
+{% block content %}
+<h1>Your Travel Dashboard</h1>
+<p>Search groups by name or filter by type—connect and plan trips together!</p>
+<form method="get">
+    <input type="text" name="q" placeholder="Search (e.g., 'Himalaya')" value="{{ query }}">
+    <select name="type">
+        <option value="">All Types</option>
+        <option value="solo" {% if group_type == 'solo' %}selected{% endif %}>Solo</option>
+        <option value="family" {% if group_type == 'family' %}selected{% endif %}>Family</option>
+        <option value="friends" {% if group_type == 'friends' %}selected{% endif %}>Friends</option>
+        <option value="strangers" {% if group_type == 'strangers' %}selected{% endif %}>Strangers</option>
+    </select>
+    <button type="submit">Scout</button>
+</form>
+<h2>Public Groups</h2>
+<ul>
+    {% for group in groups %}
+    <li><a href="{% url 'group_detail' group.pk %}">{{ group.name }}</a> – {{ group.description }} ({{ group.group_type }})</li>
+    {% empty %}<li>No matches—create one!</li>
+    {% endfor %}
+</ul>
+<h2>Your Groups</h2>
+<ul>
+    {% for group in owned_groups %}
+    <li><a href="{% url 'group_detail' group.pk %}">{{ group.name }}</a></li>
+    {% empty %}<li><a href="{% url 'create_group' %}">Create Your First Group</a></li>
+    {% endfor %}
+</ul>
+<a href="{% url 'create_group' %}"><button>Create Group</button></a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Create Group - Travel Together{% endblock %}
+{% block content %}
+<h1>Create Your Travel Group</h1>
+<p>Assemble your crew—solo, family, or strangers welcome!</p>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Launch Group</button></form>
+<a href="{% url 'dashboard' %}">Back to Dashboard</a>
+{% endblock %}
+{% if group.image %}
+    <img src="{{ group.image.url }}" alt="{{ group.name }}" style="width: 100%; max-height: 300px; object-fit: cover;">
+{% endif %}
