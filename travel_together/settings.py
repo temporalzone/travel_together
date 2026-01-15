@@ -3,11 +3,12 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'your-secret-key-here-django-style'  # Generate a real one: python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+# Generate a real secret key locally: python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'your-local-dev-key-here')  # Use env var for production
 
-DEBUG = True
+DEBUG = False  # Set True for local dev, False for Render/live
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['travel-together-kutp.onrender.com', 'localhost', '127.0.0.1', '*']  # * for testing; remove for prod
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -49,20 +50,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'travel_together.wsgi.application'
 
-# DATABASES (MySQL for production; swap to SQLite for dev)
+# Database (SQLite for easy dev; swap to PostgreSQL for prod on Render)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',  # Blooms a local file—your trail's timeless tome, no setup sorcery.
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# For SQLite fallback: 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -77,25 +71,25 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'user/static']  # Where your css/images/js live
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # The collection spot—creates a folder
+STATICFILES_DIRS = [BASE_DIR / 'user/static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/register/'
 
+# Email (use env vars for production)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'temporalzone9@gmail.com'  # Your Gmail
-EMAIL_HOST_PASSWORD = 'iihcxiskcfyvzzdp'  # Use app password from Google
-DEFAULT_FROM_EMAIL = 'temporalzone9@gmail.com'
-SITE_URL = 'http://127.0.0.1:8000'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'temporalzone9@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'iihcxiskcfyvzzdp')  # Move to Render env vars
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'temporalzone9@gmail.com')
+SITE_URL = os.environ.get('SITE_URL', 'http://127.0.0.1:8000')
 
-#TWILIO_ACCOUNT_SID = 'AC185f75ed479c01426d3266306152eceb'
-#TWILIO_AUTH_TOKEN = '32ff79dd9a761d844227a86a7af1e58d'
-#TWILIO_PHONE_NUMBER = '+919205259380'
-
-ALLOWED_HOSTS = ['travel-together-kutp.onrender.com', 'localhost', '127.0.0.1']
+# Twilio (commented for safety; uncomment for local, use env vars for prod)
+# TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
+# TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+# TWILIO_PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER')
