@@ -97,3 +97,5 @@ SITE_URL = 'http://127.0.0.1:8000'
 #TWILIO_ACCOUNT_SID = 'AC185f75ed479c01426d3266306152eceb'
 #TWILIO_AUTH_TOKEN = '32ff79dd9a761d844227a86a7af1e58d'
 #TWILIO_PHONE_NUMBER = '+919205259380'
+
+ALLOWED_HOSTS = ['travel-together-kutp.onrender.com', 'localhost', '127.0.0.1']
